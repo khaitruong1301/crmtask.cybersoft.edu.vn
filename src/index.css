@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.body_collapse {
+  background: linear-gradient(
+    117.76deg,
+    hsla(0, 0%, 100%, 0.6) -7.21%,
+    hsla(0, 0%, 100%, 0.3) 118.08%
+  );
+  border: 1px solid #fff;
+  -ms-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.02);
+  -o-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.02);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.02) !important;
+  padding: 0 10px;
+}
+
+.shadow_item {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
