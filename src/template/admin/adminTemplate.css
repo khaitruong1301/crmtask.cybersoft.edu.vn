@@ -1,0 +1,25 @@
+.ant-menu {
+  background: none;
+}
+
+.ant-menu li {
+  color: white;
+  padding-inline: 0 !important;
+}
+
+.ant-menu li:hover {
+  text-decoration: underline;
+  color: white !important;
+}
+
+.ant-menu li:active {
+  background: unset !important;
+}
+
+.ant-menu .ant-menu-item-active {
+  color: white;
+}
+
+.ant-menu .ant-menu-item-selected {
+  background: unset !important;
+}
