@@ -118,7 +118,7 @@ const ItemQuanLiRoadMapTask = ({
                     </a>
                   </li>
                 })}
-                <li className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
+                {/* <li className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
                   <a className='text-black flex items-center justify-between w-full'>
                     <p className='mb-0 mr-1'>+ Bài 1: Giới thiệu</p>
                     <PopConfirmDelete
@@ -130,7 +130,7 @@ const ItemQuanLiRoadMapTask = ({
                       </button>
                     </PopConfirmDelete>
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div>
