@@ -37,14 +37,14 @@ export default function RoadMapTaskBuoi({ dataItem }: Props) {
       <div className="body_collapse">
         <AnimateHeight
           id="example-panel"
-          duration={500}
+          duration={300}
           height={collapsed ? 0 : "auto"} // see props documentation below
         >
           <div className="roadmap_task_content">
             <div className="new_task p-3">
               <ButtonAdd title='Tạo task' />
             </div>
-            <div className="flex items-start flex-wrap">
+            <div className="flex items-start flex-wrap pb-5">
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn video xem trước"}
