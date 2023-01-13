@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './redux/configsStore';
 import CrmTask from './template/crmTask/CrmTask';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, BrowserRouter } from 'react-router-dom';
 import { history } from './util/config';
-import { BrowserRouter } from 'react-router-dom';
 import QuanLiRoadMapTaskChiTiet from './pages/quanLiRoadMapTaskChiTiet/QuanLiRoadMapTaskChiTiet';
 import './index.css'
 import AdminTemplate from './template/admin/AdminTemplate';
@@ -18,10 +17,10 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
-        <Route path='admin' element={<AdminTemplate />} >
-
-          <Route path='roadmap' element={<QuanLiRoadMapTask />} />
-          <Route path='roadmapchitiet' element={<QuanLiRoadMapTaskChiTiet />} />
+        <Route path='' element={<AdminTemplate />} >
+          <Route path='roadmap' element={<QuanLiRoadMapTask />} ></Route>
+          <Route path='roadmapchitiet' element={<QuanLiRoadMapTaskChiTiet />} ></Route>
+          <Route path='*' element={<Navigate to="admin/roadmap" />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

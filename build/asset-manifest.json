@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a9c6b822.css",
+    "main.js": "/static/js/main.51b716ac.js",
+    "static/media/logoCyber.png": "/static/media/logoCyber.46d5c038aa26b8474a0d.png",
+    "index.html": "/index.html",
+    "main.a9c6b822.css.map": "/static/css/main.a9c6b822.css.map",
+    "main.51b716ac.js.map": "/static/js/main.51b716ac.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a9c6b822.css",
+    "static/js/main.51b716ac.js"
+  ]
+}

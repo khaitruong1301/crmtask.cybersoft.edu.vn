@@ -1,7 +1,8 @@
 import React from 'react'
-import { Table } from 'antd';
+import { Space, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { Link } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 type Props = {}
 interface DataType {
   key: React.Key;
@@ -22,25 +23,27 @@ const columns: ColumnsType<DataType> = [
   {
     title: 'Tên Lộ Trình',
     dataIndex: 'tenLoTrinh',
-    render: (text: string) => <Link to={""}></Link>,
+    render: (text: string) => <Link to={"#"}>{text}</Link>,
     // sorter: (a, b) => a.age - b.age,
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    filters: [
-      {
-        text: 'London',
-        value: 'London',
-      },
-      {
-        text: 'New York',
-        value: 'New York',
-      },
-    ],
-    // onFilter: (value: any, record) => record.address.startsWith(value),
-    filterSearch: true,
-    width: '40%',
+    title: 'Thao tác',
+    dataIndex: 'thaoTac',
+    render: (_: any, record: DataType) => (
+      <Space size="middle">
+        <div className='px-3 '>
+          <a className='hover:bg-slate-200 rounded px-2 py-2'>Tạo mới danh mục task</a>
+        </div>
+        <div className='px-3'>
+          <a className='hover:bg-slate-200 rounded px-2 py-2'><EditOutlined className='text-lg' /></a>
+        </div>
+        <div className='px-3'>
+          <button className='text-white px-2 py-2 bg-red-500 hover:bg-red-600 rounded flex items-center justify-center'>
+            <DeleteOutlined className='text-lg leading-none' />
+          </button>
+        </div>
+      </Space>
+    )
   },
 ];
 
