@@ -15,9 +15,12 @@ export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
   const { baiTap, baiTapLamThem, capstone, id, maRoadMapDetail, maSkill, ngayHoc, stt, taiLieu, taiLieuDocThem, tracNghiem, tracNghiemExtra, videoXemLai, videoXemTruoc } = dataItem;
+
 console.log(dataTask)
 
-  let taskCuaBuoi: DataTask = dataTask && dataTask[id]
+  let taskCuaBuoi: DataTask = {} as DataTask
+
+ 
 
   return (
     <>
