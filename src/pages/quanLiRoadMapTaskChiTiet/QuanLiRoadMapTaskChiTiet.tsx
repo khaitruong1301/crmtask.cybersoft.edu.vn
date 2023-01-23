@@ -7,16 +7,23 @@ import ModalChonItem from './modalChonItem/ModalChonItem';
 import data from './../../dataFake/response_1671721468600.json';
 import RoadMapTaskBuoi from './roadMapTaskBuoi/RoadMapTaskBuoi';
 import TitleLayout from '../../components/titleLayout/TitleLayout';
-import { RoadMapChiTiet } from '../../types/TypeDataRoadMapChiTiet';
+import { DataTask, RoadMapChiTiet } from '../../types/TypeDataRoadMapChiTiet';
 type Props = {}
 export type TypeDataTask = typeof data;
 
 export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contentModal, setContentModal] = useState<ReactElement>(<div></div>);
-  const [dataTask, setDataTask] = useState<RoadMapChiTiet[]>();
+  const [dataTask, setDataTask] = useState<DataTask | undefined>();
+  const [dataRoadMap, setDataRoadMap] = useState<RoadMapChiTiet[]>()
+
+
   useEffect(() => {
-    setDataTask(JSON.parse(JSON.stringify(data.content)));
+    // setDataTask(JSON.parse(JSON.stringify(data.content)));
+    let dataFake = JSON.parse(JSON.stringify(data.content));
+
+    setDataRoadMap(dataFake.dataRoadMap);
+    setDataTask(dataFake.dataTask)
   }, [])
 
   const options = [
@@ -59,10 +66,11 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
 
 
   const renderTaskTheoBuoi = () => {
-    return dataTask?.map((item: RoadMapChiTiet, index: number) => {
+    return dataRoadMap?.map((item: RoadMapChiTiet, index: number) => {
       return <RoadMapTaskBuoi
         key={index}
         dataItem={item}
+        dataTask= {dataTask}
       />
     })
   }

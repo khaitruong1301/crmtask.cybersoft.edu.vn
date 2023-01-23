@@ -13,7 +13,6 @@ export interface RoadMapChiTiet {
   taiLieuDocThem: BaiTap;
   baiTapLamThem: BaiTap;
   capstone: BaiTap;
-  cauHoiKhoKhan: BaiTap;
 }
 
 export interface BaiTap {
@@ -40,4 +39,21 @@ export enum MaLoaiBaiHoc {
   QuizWrite = "QUIZ_WRITE",
   TaiLieuExtra = "TAI_LIEU_EXTRA",
   VideoXemTruoc = "VIDEO_XEM_TRUOC",
+}
+
+
+export interface DataTask {
+  danhSachVideoXemTruoc: { [key: string]: DanhSach };
+  danhSachTracNghiem:    { [key: string]: DanhSach };
+  danhSachBaiTap:        { [key: string]: DanhSach };
+  danhSachTaiLieuExtra:  { [key: string]: DanhSach };
+  danhSachBaiTapExtra:   { [key: string]: DanhSach };
+  danhSachCapstone:      { [key: string]: DanhSach };
+}
+
+export interface DanhSach {
+  idBaiHoc:      number;
+  tieuDe:        string;
+  isHoanThanh:   boolean;
+  ngayHoanThanh: Date;
 }

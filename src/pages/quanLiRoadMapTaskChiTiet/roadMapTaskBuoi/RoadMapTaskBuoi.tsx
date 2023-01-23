@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
 import AnimateHeight from 'react-animate-height';
 import ButtonAdd from '../../../components/button/ButtonAdd';
+import { DataTask, RoadMapChiTiet } from '../../../types/TypeDataRoadMapChiTiet';
 import ItemQuanLiRoadMapTask from '../itemQuanLiRoadMapTask/ItemQuanLiRoadMapTask';
-import { RoadMapChiTiet } from '../../../types/TypeDataRoadMapChiTiet';
+
+
 
 type Props = {
-
-  dataItem: RoadMapChiTiet
+  dataItem: RoadMapChiTiet,
+  dataTask: DataTask | undefined
 }
 
-export default function RoadMapTaskBuoi({ dataItem }: Props) {
+export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
-  const { baiTap, baiTapLamThem, capstone, cauHoiKhoKhan, id, maRoadMapDetail, maSkill, ngayHoc, stt, taiLieu, taiLieuDocThem, tracNghiem, tracNghiemExtra, videoXemLai, videoXemTruoc } = dataItem;
+  const { baiTap, baiTapLamThem, capstone, id, maRoadMapDetail, maSkill, ngayHoc, stt, taiLieu, taiLieuDocThem, tracNghiem, tracNghiemExtra, videoXemLai, videoXemTruoc } = dataItem;
+console.log(dataTask)
+
+  let taskCuaBuoi: DataTask = dataTask && dataTask[id]
 
   return (
     <>
