@@ -4,27 +4,34 @@ import AnimateHeight from 'react-animate-height';
 import ItemQuanLiRoadMapTask from './itemQuanLiRoadMapTask/ItemQuanLiRoadMapTask';
 import ButtonAdd from '../../components/button/ButtonAdd';
 import ModalChonItem from './modalChonItem/ModalChonItem';
-import data from './../../dataFake/response_1671721468600.json';
+import dataJson from './../../dataFake/response_1671721468600.json';
 import RoadMapTaskBuoi from './roadMapTaskBuoi/RoadMapTaskBuoi';
 import TitleLayout from '../../components/titleLayout/TitleLayout';
-import { DataTask, RoadMapChiTiet } from '../../types/TypeDataRoadMapChiTiet';
+import { DataTask, DataRoadMap, DataRoadMapChiTiet } from '../../types/TypeDataRoadMapChiTiet';
+import { useQuery } from '@tanstack/react-query';
+import { BaseApi } from '../../service/BaseService';
+import { useParams } from 'react-router-dom';
 type Props = {}
-export type TypeDataTask = typeof data;
+export type TypeDataTask = typeof dataJson;
 
 export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contentModal, setContentModal] = useState<ReactElement>(<div></div>);
-  const [dataTask, setDataTask] = useState<DataTask | undefined>();
-  const [dataRoadMap, setDataRoadMap] = useState<RoadMapChiTiet[]>()
+  const [dataTask, setDataTask] = useState<DataTask>();
+  const [dataRoadMap, setDataRoadMap] = useState<DataRoadMap[]>()
+
+  const BASE_URL = "/api/crmtask/get-task-crm"
+
+  const {idRoadMapDetail} = useParams()
 
 
-  useEffect(() => {
-    // setDataTask(JSON.parse(JSON.stringify(data.content)));
-    let dataFake = JSON.parse(JSON.stringify(data.content));
+  // useEffect(() => {
+  //   // setDataTask(JSON.parse(JSON.stringify(data.content)));
+  //   let dataFake = JSON.parse(JSON.stringify(dataJson.content));
 
-    setDataRoadMap(dataFake.dataRoadMap);
-    setDataTask(dataFake.dataTask)
-  }, [])
+  //   setDataRoadMap(dataFake.dataRoadMap);
+  //   setDataTask(dataFake.dataTask)
+  // }, [])
 
   const options = [
     {
@@ -64,13 +71,19 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
     console.log(value);
   };
 
+  const fetchData = (): Promise<DataRoadMapChiTiet> => {
+    return BaseApi.get(`${BASE_URL}/${idRoadMapDetail}`).then((res) => res.data.content)
+  }
+  
 
+     const {data} = useQuery({queryKey: ['data-road-map-chi-tiet'], queryFn: fetchData});
+  
   const renderTaskTheoBuoi = () => {
-    return dataRoadMap?.map((item: RoadMapChiTiet, index: number) => {
+    return data?.dataRoadMap?.map((item: DataRoadMap, index: number) => {
       return <RoadMapTaskBuoi
         key={index}
         dataItem={item}
-        dataTask= {dataTask}
+        dataTask = {data?.dataTask?.[item.id]}
       />
     })
   }
