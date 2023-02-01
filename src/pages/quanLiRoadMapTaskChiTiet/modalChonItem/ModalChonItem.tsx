@@ -1,37 +1,63 @@
-import { Modal } from 'antd';
-import React, { Dispatch, ReactElement, ReactNode, SetStateAction } from 'react'
+import { Modal,message  } from 'antd';
+import React, { ReactElement, ReactNode, SetStateAction } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { closeModalAddTask } from '../../../redux/taskSlice';
+import { DanhSachBaiHoc } from '../../../types/TypeDataRoadMapChiTiet';
 
 type Props = {
   isVisible: boolean
   title: string
-  contetModal?: ReactNode
-  setIsVisible: (isVisible: boolean) => void
-  setContentModal?: Dispatch<SetStateAction<ReactElement>>
   onCloseModal?: () => void,
+  themTask: (idBuoiHoc: number, baiHoc: DanhSachBaiHoc, loaiTask: string) => void,
 }
+
+
 
 const ModalChonItem = ({
   isVisible,
   title,
-  contetModal,
-  setIsVisible,
-  setContentModal = () => { },
   onCloseModal = () => { },
+  themTask
 }: Props) => {
+  const task = useAppSelector((state) => state.task);
+  const dispatch = useAppDispatch();
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const info = () => {
+    messageApi.info('Hello, Ant Design!');
+  };
+
   return (
     <Modal
       title={title}
       open={isVisible}
       onCancel={() => {
-        setIsVisible(false);
-        setContentModal(<div></div>);
-        onCloseModal();
+       dispatch(closeModalAddTask())
       }}
       footer={null}
       zIndex={1000}
-      style={{ top: 20 }}
+      style={{ top: 20, width: "800px" }}
     >
-      <div style={{ width: "max-content" }}>{contetModal}</div>
+      <div style={{ width: "100%" }}>
+      <ul className="d-flex flex-wrap">
+                {task.taskState.danhSachBaiHoc && task.taskState.danhSachBaiHoc.map((item, index) => {
+                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
+                    <a className='text-black flex items-center justify-between w-full'>
+                      <p className='mb-0 mr-1'>+ {item.tieuDe}</p>
+                      {contextHolder}
+                        <button onClick={() => {
+                          console.log(task.taskState.typeTask)
+                          themTask(task.taskState.id, item,  task.taskState.typeTask)
+                          info()
+                        } }>
+                          <i className="fa fa-regular fa-plus hover:text-red-500"></i>
+                        </button>
+                    </a>
+                  </li>
+                })}
+              </ul>
+        </div>
     </Modal>
   )
 }

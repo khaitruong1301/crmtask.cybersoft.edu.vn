@@ -1,3 +1,4 @@
+import Item from 'antd/es/list/Item';
 import React, { useState } from 'react'
 import AnimateHeight from 'react-animate-height';
 import ButtonAdd from '../../../components/button/ButtonAdd';
@@ -52,42 +53,61 @@ export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn video xem trước"}
                   titleNhiemVu={"Video xem trước"}
-                  dataVideoXemTruoc={dataTask?.danhSachVideoXemTruoc}
+                  dataTask={dataTask?.danhSachVideoXemTruoc}
+                  dataRoadMap = {dataItem?.videoXemTruoc.danhSachBaiHoc}
+                  typeTask={"danhSachVideoXemTruoc"}
+                  idBuoiHoc={dataItem?.id}
+            
                 />
               </div>
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn trắc nghiệm"}
                   titleNhiemVu={"Làm trắc nghiệm"}
-                  dataTracNghiem={dataTask?.danhSachTracNghiem}
+                  typeTask={"danhSachTracNghiem"}
+                  dataTask={dataTask?.danhSachTracNghiem}
+                  idBuoiHoc={dataItem?.id}
+                  dataRoadMap = {dataItem?.tracNghiem.danhSachBaiHoc}
                 />
               </div>
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn tài liệu"}
                   titleNhiemVu={"Đọc tài liệu tham khảo"}
-                  dataTaiLieuExtra={dataTask?.danhSachTaiLieuExtra}
+                  dataTask={dataTask?.danhSachTaiLieuExtra}
+                  idBuoiHoc={dataItem?.id}
+                  typeTask={"danhSachTaiLieuExtra"}
+                  dataRoadMap = {dataItem?.taiLieuDocThem.danhSachBaiHoc}
                 />
               </div>
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn bài tập"}
                   titleNhiemVu={"Xem bài tập extra"}
-                  dataBaiTapExtra={dataTask?.danhSachBaiTapExtra}
+                  dataTask={dataTask?.danhSachBaiTapExtra}
+                  idBuoiHoc={dataItem?.id}
+                  typeTask={"danhSachBaiTapExtra"}
+                  dataRoadMap = {dataItem?.baiTapLamThem.danhSachBaiHoc}
                 />
               </div>
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn capstone"}
                   titleNhiemVu={"Làm bài capstone"}
-                  dataCapstone={dataTask?.danhSachCapstone}
+                  dataTask={dataTask?.danhSachCapstone}
+                  idBuoiHoc={dataItem?.id}
+                  typeTask={"danhSachCapstone"}
+                  dataRoadMap = {dataItem?.capstone.danhSachBaiHoc}
                 />
               </div>
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Chọn bài tập"}
                   titleNhiemVu={"Nộp bài tập"}
-                  dataBaiTap={dataTask?.danhSachBaiTap}
+                  dataTask={dataTask?.danhSachBaiTap}
+                  idBuoiHoc={dataItem?.id}
+                  typeTask={"danhSachBaiTap"}
+                  dataRoadMap = {dataItem?.baiTap.danhSachBaiHoc}
                 />
               </div>
               {/* <div className="w-50 p-2">
@@ -97,13 +117,13 @@ export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
                   dataVideoLienQuan={videoXemLai.danhSachBaiHoc}
                 />
               </div> */}
-              <div className="w-50 p-2">
+              {/* <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
                   titleButton={"Các nhiệm vụ khác"}
                   titleNhiemVu={"Các nhiệm vụ khác"}
                   dataNhiemVuKhac={[]}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </AnimateHeight>

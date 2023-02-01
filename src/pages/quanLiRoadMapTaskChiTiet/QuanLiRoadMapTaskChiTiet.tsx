@@ -7,32 +7,20 @@ import ModalChonItem from './modalChonItem/ModalChonItem';
 import dataJson from './../../dataFake/response_1671721468600.json';
 import RoadMapTaskBuoi from './roadMapTaskBuoi/RoadMapTaskBuoi';
 import TitleLayout from '../../components/titleLayout/TitleLayout';
-import { DataTask, DataRoadMap, DataRoadMapChiTiet } from '../../types/TypeDataRoadMapChiTiet';
+import { DataTask, DataRoadMap, DataRoadMapChiTiet, DanhSachBaiHoc, DanhSach } from '../../types/TypeDataRoadMapChiTiet';
 import { useQuery } from '@tanstack/react-query';
 import { BaseApi } from '../../service/BaseService';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
+import ColumnGroup from 'antd/es/table/ColumnGroup';
 type Props = {}
 export type TypeDataTask = typeof dataJson;
 
 export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [contentModal, setContentModal] = useState<ReactElement>(<div></div>);
-  const [dataTask, setDataTask] = useState<DataTask>();
-  const [dataRoadMap, setDataRoadMap] = useState<DataRoadMap[]>()
-
   const BASE_URL = "/api/crmtask/get-task-crm"
 
   const {idRoadMapDetail} = useParams()
-
-
-  // useEffect(() => {
-  //   // setDataTask(JSON.parse(JSON.stringify(data.content)));
-  //   let dataFake = JSON.parse(JSON.stringify(dataJson.content));
-
-  //   setDataRoadMap(dataFake.dataRoadMap);
-  //   setDataTask(dataFake.dataTask)
-  // }, [])
-
+  const taskReducer = useAppSelector((state) => state.task)
   const options = [
     {
       value: "zhejiang",
@@ -74,9 +62,29 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
   const fetchData = (): Promise<DataRoadMapChiTiet> => {
     return BaseApi.get(`${BASE_URL}/${idRoadMapDetail}`).then((res) => res.data.content)
   }
-  
 
-     const {data} = useQuery({queryKey: ['data-road-map-chi-tiet'], queryFn: fetchData});
+  function themTask(idBuoiHoc: number, baiHoc: DanhSachBaiHoc, loaiTask: string) : any {
+    let newTask: DanhSach =  {
+      idBaiHoc:   baiHoc.id,
+      tieuDe:        baiHoc.tieuDe,
+      isHoanThanh:   false,
+      ngayHoanThanh: new Date()
+    }
+    let dataTaskCuaBuoiHoc:DataTask = data?.dataTask[idBuoiHoc] || {} as DataTask;
+    // data?.dataTask?[idBuoiHoc][loaiTask][baiHoc.id] 
+    console.log(loaiTask, idBuoiHoc, data)
+    // let dataTaskBuoiHocTheoLoai: { [key: string]: DanhSach } = dataTaskCuaBuoiHoc[loaiTask as keyof DataTask];
+
+    // dataTaskBuoiHocTheoLoai[baiHoc.id] = newTask;
+
+   console.log(data?.dataTask[idBuoiHoc])
+
+   console.log(newTask)
+    
+    
+  }
+  
+  const {data} = useQuery({queryKey: ['data-road-map-chi-tiet'], queryFn: fetchData});
   
   const renderTaskTheoBuoi = () => {
     return data?.dataRoadMap?.map((item: DataRoadMap, index: number) => {
@@ -90,11 +98,9 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
   return (
     <>
       <ModalChonItem
-        isVisible={isModalOpen}
+        isVisible={taskReducer.isModalAddTaskVisible}
         title="Thêm dữ liệu"
-        contetModal={contentModal}
-        setContentModal={setContentModal}
-        setIsVisible={setIsModalOpen}
+        themTask = {themTask}
       />
       <div className="roadmap_task bg-white-hover">
         {/* tiêu đề */}

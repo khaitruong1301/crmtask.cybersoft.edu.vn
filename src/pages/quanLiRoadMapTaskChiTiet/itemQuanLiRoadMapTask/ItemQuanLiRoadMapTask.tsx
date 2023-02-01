@@ -4,11 +4,15 @@ import PopConfirmDelete from '../../../components/popConfirm/PopConfirmDelete'
 import { BaiTap, DanhSachBaiHoc, DanhSach } from '../../../types/TypeDataRoadMapChiTiet'
 import AnimateHeight from 'react-animate-height'
 
+import { openModalAddTask } from '../../../redux/taskSlice'
+import { useAppDispatch } from '../../../hooks'
+
+
+
 type Props = {
   titleButton: string,
   titleNhiemVu: string,
   contentItem?: ReactNode,
-  setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>,
   dataVideoXemTruoc?: { [key: string]: DanhSach },
   dataBaiTap?: { [key: string]: DanhSach },
   dataTaiLieu?: { [key: string]: DanhSach },
@@ -17,7 +21,11 @@ type Props = {
   dataCapstone?: { [key: string]: DanhSach },
   dataBaiTapExtra?: { [key: string]: DanhSach },
   dataTracNghiem?: { [key: string]: DanhSach },
-  dataNhiemVuKhac?: []
+  dataTask?:  { [key: string]: DanhSach },
+  dataNhiemVuKhac?: [],
+  dataRoadMap ?: DanhSachBaiHoc[],
+  idBuoiHoc: number,
+  typeTask: string,
 }
 
 
@@ -34,9 +42,25 @@ const ItemQuanLiRoadMapTask = ({
   dataCapstone,
   dataBaiTapExtra,
   dataTracNghiem,
-  setIsModalOpen = () => { },
+  dataTask,
+  dataRoadMap,
+  idBuoiHoc,
+  typeTask,
 }: Props) => {
   const [collapsed, setCollapsed] = useState(true);
+  const dispatch = useAppDispatch();
+
+  let newDataTask:DanhSachBaiHoc[] = [] ;
+
+  // Duyệt mảng data road map xem coi có bài nào chưa có trong task không.
+  dataRoadMap?.forEach(baiHoc => {
+    if (!dataTask?.[baiHoc.id]) {
+      newDataTask.push(baiHoc)
+    }
+  });
+
+  
+
   return (
     <div className=" bg-white p-5 rounded-md shadow_item">
       {/* <div>
@@ -67,119 +91,14 @@ const ItemQuanLiRoadMapTask = ({
           >
             <div className="item_xem_truoc mb-3">
               <ul className="d-flex flex-wrap">
-                {dataVideoXemTruoc && Object.keys(dataVideoXemTruoc).map((item, index) => {
+                {dataTask && Object.keys(dataTask).map((item, index) => {
                   return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
                     <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataVideoXemTruoc[item].tieuDe}</p>
+                      <p className='mb-0 mr-1'>+ {dataTask[item].tieuDe}</p>
                       <PopConfirmDelete
                         title='Bạn có chắc muốn xoá chứ ?'
                         content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-                {dataTaiLieu && Object.keys(dataTaiLieu).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataTaiLieu[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-                {dataBaiTap && Object.keys(dataBaiTap).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataBaiTap[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-                {dataVideoLienQuan && Object.keys(dataVideoLienQuan).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataVideoLienQuan[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-{dataTaiLieuExtra && Object.keys(dataTaiLieuExtra).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataTaiLieuExtra[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-{dataCapstone && Object.keys(dataCapstone).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataCapstone[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-         {dataBaiTapExtra && Object.keys(dataBaiTapExtra).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataBaiTapExtra[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                      >
-                        <button>
-                          <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
-                        </button>
-                      </PopConfirmDelete>
-                    </a>
-                  </li>
-                })}
-
-            {dataTracNghiem && Object.keys(dataTracNghiem).map((item, index) => {
-                  return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
-                    <a className='text-black flex items-center justify-between w-full'>
-                      <p className='mb-0 mr-1'>+ {dataTracNghiem[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
+                        
                       >
                         <button>
                           <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
@@ -191,9 +110,13 @@ const ItemQuanLiRoadMapTask = ({
               </ul>
             </div>
             <div>
-              <ButtonAdd title={`+ ${titleButton}`} onClick={() => {
-                setIsModalOpen(true);
-              }} />
+              {
+                newDataTask?.length == 0 ? <p className='text-success'>Đã đủ task</p> :
+              <ButtonAdd title={`+ ${titleButton}`} onClick={() => dispatch(openModalAddTask({
+                id: idBuoiHoc,
+                danhSachBaiHoc: newDataTask,
+                typeTask,
+              }))} />}
             </div>
           </AnimateHeight>
         </div>
