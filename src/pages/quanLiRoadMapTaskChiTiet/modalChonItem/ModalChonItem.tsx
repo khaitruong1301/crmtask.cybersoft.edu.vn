@@ -23,7 +23,7 @@ const ModalChonItem = ({
   const [messageApi, contextHolder] = message.useMessage();
 
   const info = () => {
-    messageApi.info('Hello, Ant Design!');
+    messageApi.info('Đã add vào task');
   };
 
   return (

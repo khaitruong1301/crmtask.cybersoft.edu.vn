@@ -3,6 +3,7 @@ import { RootState } from './configsStore';
 import { DeleteTaskPayLoad, TaskState } from '../types/TypeTaskState';
 import { DataRoadMap, DataTask, DataRoadMapChiTiet, DanhSach, DanhSachBaiHoc } from '../types/TypeDataRoadMapChiTiet';
 import { type } from 'os';
+import _ from 'lodash';
 
 //Defining our initialState's type
 type initialStateType = {
@@ -85,19 +86,22 @@ export const taskSlice = createSlice({
           state.dataTask = newDataTask;
           state.taskState.danhSachBaiHoc = state.taskState.danhSachBaiHoc.filter(x => x.id != id)
           state.isActiveLuuButton = false
-          //   let dataTaskBuoiHocTheoLoai = newDataTask[state.taskState.typeTask as keyof DataTask]
-          // // Thêm key mã bài học 
-          // dataTaskBuoiHocTheoLoai[id.toString() as keyof DanhSach] = newTask
-          // console.log(state.dataTask)
-          // state.isActiveLuuButton = false
+
+        }
+
+        if (_.isEmpty(state.dataTask)) {
+          state.isModalAddTaskVisible = false;
         }
        
+      },
+      turnOffLuuButton:(state) => {
+        state.isActiveLuuButton = true;
       }
   },
 });
 
 // To able to use reducers we need to export them.
-export const { openModalAddTask, closeModalAddTask, getDataFromApi, deleteTask, addTask } = taskSlice.actions;
+export const { openModalAddTask, closeModalAddTask, getDataFromApi, deleteTask, addTask,turnOffLuuButton } = taskSlice.actions;
 
 //Selector to access bookList state.
 export const listRoadMap = (state: RootState) => state;

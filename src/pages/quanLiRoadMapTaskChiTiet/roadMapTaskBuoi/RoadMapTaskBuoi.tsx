@@ -9,10 +9,11 @@ import ItemQuanLiRoadMapTask from '../itemQuanLiRoadMapTask/ItemQuanLiRoadMapTas
 
 type Props = {
   dataItem: DataRoadMap,
-  dataTask: DataTask
+  dataTask: DataTask,
+  thuTuBuoiHoc: number
 }
 
-export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
+export default function RoadMapTaskBuoi({ dataItem, dataTask, thuTuBuoiHoc }: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
   const { baiTap, baiTapLamThem, capstone, id, maRoadMapDetail, maSkill, ngayHoc, stt, taiLieu, taiLieuDocThem, tracNghiem, tracNghiemExtra, videoXemLai, videoXemTruoc } = dataItem;
@@ -28,7 +29,7 @@ export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
         }}
       >
         <div className="d-flex align-items-center justify-content-center bg-blue-theme px-5 py-3 text-sm text-white rounded-t">
-          <p className="mb-0 flex-grow-1">Buổi: {stt}</p>
+          <p className="mb-0 flex-grow-1">Buổi: {thuTuBuoiHoc}</p>
           <i
             style={{
               transform: collapsed ? "rotate(0deg)" : "rotate(180deg)",
@@ -45,9 +46,9 @@ export default function RoadMapTaskBuoi({ dataItem, dataTask }: Props) {
           height={collapsed ? 0 : "auto"} // see props documentation below
         >
           <div className="roadmap_task_content">
-            <div className="new_task p-3">
+            {/* <div className="new_task p-3">
               <ButtonAdd title='Tạo task' />
-            </div>
+            </div> */}
             <div className="flex items-start flex-wrap pb-5">
               <div className="w-50 p-2">
                 <ItemQuanLiRoadMapTask
