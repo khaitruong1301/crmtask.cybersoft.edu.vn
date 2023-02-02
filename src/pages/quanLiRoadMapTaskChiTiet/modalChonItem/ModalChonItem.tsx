@@ -1,14 +1,13 @@
 import { Modal,message  } from 'antd';
 import React, { ReactElement, ReactNode, SetStateAction } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { closeModalAddTask } from '../../../redux/taskSlice';
+import { addTask, closeModalAddTask } from '../../../redux/taskSlice';
 import { DanhSachBaiHoc } from '../../../types/TypeDataRoadMapChiTiet';
 
 type Props = {
   isVisible: boolean
   title: string
   onCloseModal?: () => void,
-  themTask: (idBuoiHoc: number, baiHoc: DanhSachBaiHoc, loaiTask: string) => void,
 }
 
 
@@ -17,7 +16,6 @@ const ModalChonItem = ({
   isVisible,
   title,
   onCloseModal = () => { },
-  themTask
 }: Props) => {
   const task = useAppSelector((state) => state.task);
   const dispatch = useAppDispatch();
@@ -47,8 +45,10 @@ const ModalChonItem = ({
                       <p className='mb-0 mr-1'>+ {item.tieuDe}</p>
                       {contextHolder}
                         <button onClick={() => {
-                          console.log(task.taskState.typeTask)
-                          themTask(task.taskState.id, item,  task.taskState.typeTask)
+                          dispatch(addTask(
+                            item
+                          ))
+                        
                           info()
                         } }>
                           <i className="fa fa-regular fa-plus hover:text-red-500"></i>

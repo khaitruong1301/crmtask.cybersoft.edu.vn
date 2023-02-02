@@ -5,17 +5,14 @@ import { boolean } from 'yup'
 type Props = {
   title: string,
   content: React.ReactNode,
-
   children: React.ReactNode
 }
 
 const confirm = (e: React.MouseEvent<HTMLElement, MouseEvent> | undefined): void => {
-  console.log(e);
   message.success('Click on Yes');
 };
 
 const cancel = (e: React.MouseEvent<HTMLElement, MouseEvent> | undefined) => {
-  console.log(e);
   message.error('Click on No');
 };
 

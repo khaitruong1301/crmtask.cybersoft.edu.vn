@@ -4,7 +4,7 @@ import PopConfirmDelete from '../../../components/popConfirm/PopConfirmDelete'
 import { BaiTap, DanhSachBaiHoc, DanhSach } from '../../../types/TypeDataRoadMapChiTiet'
 import AnimateHeight from 'react-animate-height'
 
-import { openModalAddTask } from '../../../redux/taskSlice'
+import { deleteTask, openModalAddTask } from '../../../redux/taskSlice'
 import { useAppDispatch } from '../../../hooks'
 
 
@@ -59,7 +59,12 @@ const ItemQuanLiRoadMapTask = ({
     }
   });
 
-  
+  function xoaTask(maBaiHoc: number) {
+    dispatch(deleteTask({
+      maBuoiHoc: idBuoiHoc.toString(),
+maBaiHocXoa: maBaiHoc.toString(),
+typeTask,
+  } ))}
 
   return (
     <div className=" bg-white p-5 rounded-md shadow_item">
@@ -95,15 +100,11 @@ const ItemQuanLiRoadMapTask = ({
                   return <li key={index} className="flex justify-between w-full mb-1 rounded px-4 py-3 bg-white border border-white-border hover:bg-white-hover">
                     <a className='text-black flex items-center justify-between w-full'>
                       <p className='mb-0 mr-1'>+ {dataTask[item].tieuDe}</p>
-                      <PopConfirmDelete
-                        title='Bạn có chắc muốn xoá chứ ?'
-                        content={<button>Xoá</button>}
-                        
-                      >
-                        <button>
+                     
+                        <button onClick={() => xoaTask(dataTask[item].idBaiHoc)}>
                           <i className="fa-regular fa-trash-can  hover:text-red-500"></i>
                         </button>
-                      </PopConfirmDelete>
+                      
                     </a>
                   </li>
                 })}
@@ -113,7 +114,7 @@ const ItemQuanLiRoadMapTask = ({
               {
                 newDataTask?.length == 0 ? <p className='text-success'>Đã đủ task</p> :
               <ButtonAdd title={`+ ${titleButton}`} onClick={() => dispatch(openModalAddTask({
-                id: idBuoiHoc,
+                idBuoiHoc,
                 danhSachBaiHoc: newDataTask,
                 typeTask,
               }))} />}

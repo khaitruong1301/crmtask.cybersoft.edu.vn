@@ -1,4 +1,5 @@
-import { Cascader } from 'antd';
+import { Cascader, Button } from 'antd';
+import _ from 'lodash'
 import React, { ReactElement, useEffect, useState } from 'react'
 import AnimateHeight from 'react-animate-height';
 import ItemQuanLiRoadMapTask from './itemQuanLiRoadMapTask/ItemQuanLiRoadMapTask';
@@ -11,14 +12,15 @@ import { DataTask, DataRoadMap, DataRoadMapChiTiet, DanhSachBaiHoc, DanhSach } f
 import { useQuery } from '@tanstack/react-query';
 import { BaseApi } from '../../service/BaseService';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import ColumnGroup from 'antd/es/table/ColumnGroup';
+import { getDataFromApi } from '../../redux/taskSlice';
 type Props = {}
 export type TypeDataTask = typeof dataJson;
 
 export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
   const BASE_URL = "/api/crmtask/get-task-crm"
-
+  const dispatch = useAppDispatch();
   const {idRoadMapDetail} = useParams()
   const taskReducer = useAppSelector((state) => state.task)
   const options = [
@@ -58,40 +60,26 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
   const onChange = (value: any) => {
     console.log(value);
   };
-
+  
   const fetchData = (): Promise<DataRoadMapChiTiet> => {
     return BaseApi.get(`${BASE_URL}/${idRoadMapDetail}`).then((res) => res.data.content)
   }
 
-  function themTask(idBuoiHoc: number, baiHoc: DanhSachBaiHoc, loaiTask: string) : any {
-    let newTask: DanhSach =  {
-      idBaiHoc:   baiHoc.id,
-      tieuDe:        baiHoc.tieuDe,
-      isHoanThanh:   false,
-      ngayHoanThanh: new Date()
-    }
-    let dataTaskCuaBuoiHoc:DataTask = data?.dataTask[idBuoiHoc] || {} as DataTask;
-    // data?.dataTask?[idBuoiHoc][loaiTask][baiHoc.id] 
-    console.log(loaiTask, idBuoiHoc, data)
-    // let dataTaskBuoiHocTheoLoai: { [key: string]: DanhSach } = dataTaskCuaBuoiHoc[loaiTask as keyof DataTask];
-
-    // dataTaskBuoiHocTheoLoai[baiHoc.id] = newTask;
-
-   console.log(data?.dataTask[idBuoiHoc])
-
-   console.log(newTask)
+  useEffect(() => {
+    fetchData().then((data) => {
+      dispatch(getDataFromApi(data))
+    })
     
-    
-  }
+  }, [])
   
-  const {data} = useQuery({queryKey: ['data-road-map-chi-tiet'], queryFn: fetchData});
-  
+
+
   const renderTaskTheoBuoi = () => {
-    return data?.dataRoadMap?.map((item: DataRoadMap, index: number) => {
+    return taskReducer?.dataRoadMap?.map((item: DataRoadMap, index: number) => {
       return <RoadMapTaskBuoi
         key={index}
         dataItem={item}
-        dataTask = {data?.dataTask?.[item.id]}
+        dataTask = {taskReducer?.dataTask?.[item.id]}
       />
     })
   }
@@ -100,7 +88,6 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
       <ModalChonItem
         isVisible={taskReducer.isModalAddTaskVisible}
         title="Thêm dữ liệu"
-        themTask = {themTask}
       />
       <div className="roadmap_task bg-white-hover">
         {/* tiêu đề */}
@@ -112,11 +99,9 @@ export default function QuanLiRoadMapTaskChiTiet({ }: Props) {
         </div>
         {/* tìm kiếm */}
         <div className="roadmap_task_search mb-3">
-          <Cascader
-            options={options}
-            onChange={onChange}
-            placeholder="Chọn roadmap"
-          />
+          <button className="btn btn-primary" disabled={taskReducer.isActiveLuuButton}>
+            Lưu Task
+          </button>
         </div>
         <div>
           {renderTaskTheoBuoi()}
