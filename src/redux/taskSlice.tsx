@@ -48,7 +48,6 @@ export const taskSlice = createSlice({
       },
       addTask: (state, action:PayloadAction<DanhSachBaiHoc>) => {
         const {id, tieuDe} = action.payload
-        console.log(state.dataTask)
         let newTask: DanhSach =  {
           idBaiHoc:   id,
           tieuDe:        tieuDe,
@@ -66,8 +65,10 @@ export const taskSlice = createSlice({
           state.taskState.danhSachBaiHoc = state.taskState.danhSachBaiHoc.filter(x => x.id != id)
           state.isActiveLuuButton = false
         } else {
-          console.log(dataTaskCuaBuoiHoc)
-          dataTaskCuaBuoiHoc = {
+          let newDataTask = {...state.dataTask};
+
+
+          newDataTask[state.taskState.idBuoiHoc.toString()] = {
               danhSachVideoXemTruoc: {  } as { [key: string]: DanhSach },
               danhSachTracNghiem:    {  } as { [key: string]: DanhSach },
               danhSachBaiTap:        {  } as { [key: string]: DanhSach },
@@ -75,12 +76,20 @@ export const taskSlice = createSlice({
               danhSachBaiTapExtra:   {  } as { [key: string]: DanhSach },
               danhSachCapstone:      {  } as { [key: string]: DanhSach },
             }
-
-            let dataTaskBuoiHocTheoLoai = dataTaskCuaBuoiHoc[state.taskState.typeTask as keyof DataTask]
+            let dataTaskBuoiHocV2 = newDataTask[state.taskState.idBuoiHoc.toString()]
+            let dataTaskBuoiHocTheoLoai = dataTaskBuoiHocV2[state.taskState.typeTask as keyof DataTask]
           // Thêm key mã bài học 
           dataTaskBuoiHocTheoLoai[id.toString()] = newTask
-          console.log(state.dataTask)
+
+          // Xóa cái bài học trong taskState đi
+          state.dataTask = newDataTask;
+          state.taskState.danhSachBaiHoc = state.taskState.danhSachBaiHoc.filter(x => x.id != id)
           state.isActiveLuuButton = false
+          //   let dataTaskBuoiHocTheoLoai = newDataTask[state.taskState.typeTask as keyof DataTask]
+          // // Thêm key mã bài học 
+          // dataTaskBuoiHocTheoLoai[id.toString() as keyof DanhSach] = newTask
+          // console.log(state.dataTask)
+          // state.isActiveLuuButton = false
         }
        
       }
